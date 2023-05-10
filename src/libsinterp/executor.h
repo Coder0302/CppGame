@@ -1,2 +1,2 @@
 void execute(char* text);
-char* readFromFile(char *filePath);
+void readFromFile(char *filePath);
