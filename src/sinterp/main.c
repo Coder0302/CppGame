@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     printf("\n%d\n", logicalOperation(" 1 > 3"));
     printf("%d\n", logicalOperation(" 2< 4 "));
     printf("%d\n", logicalOperation("1 ==3 "));
+    printf("%d\n", logicalOperation("3 == 3"));
 
     readFromFile("input/main.fok");
     return 0;

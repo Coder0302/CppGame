@@ -22,9 +22,8 @@ void trimSpaces(char** text)
     *text = clearText;
 }
 
-int logicalOperation(char* text)
+void getArguments(char *text, char (*v1)[], char (*op)[], char (*v2)[])
 {
-    trimSpaces(&text);
     int textLength = 0;
     while(text[textLength++]){}
     
@@ -33,6 +32,7 @@ int logicalOperation(char* text)
     char var2[textLength];
 
     int i = 0;
+    
     for (int index = 0; isdigit(text[i]) || text[i] == '.'; index++)
     {
         var1[index] = text[i++];
@@ -48,6 +48,22 @@ int logicalOperation(char* text)
         var2[index] = text[i++];
         var2[index+1] = '\0';
     }
+    strcpy(*v1, var1);
+    strcpy(*op, operator);
+    strcpy(*v2, var2);
+}
+
+int logicalOperation(char* text)
+{
+    trimSpaces(&text);
+    int textLength = 0;
+    while(text[textLength++]){}
+    
+    char var1[textLength];
+    char operator[textLength];
+    char var2[textLength];
+
+    getArguments(text, &var1, &operator, &var2);
 
     char* endptr1;
     char* endptr2;
