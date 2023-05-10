@@ -1,3 +1,6 @@
+int exists(char* name);
+int getType(char* name);
+
 struct BaseType
 {
     char* name;

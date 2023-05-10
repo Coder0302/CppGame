@@ -5,6 +5,19 @@
 
 int intValuesCount;
 struct IntType* intValues;
+
+int getType(char* name)
+{
+    for (int i = 0; i < intValuesCount; i++)
+    {
+        if (intValues[i].baseType.name == name)
+        {
+            return 0;
+        }
+    }
+    return -1;
+}
+
 void makeInt(char* name, int baseValue)
 {
     intValues = realloc(intValues, ++intValuesCount * sizeof(struct IntType));

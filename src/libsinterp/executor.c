@@ -8,7 +8,7 @@
 
 void execute(char* text)
 {
-
+    printf("%s", text);
 }
 void readFromFile(char* filePath)
 {

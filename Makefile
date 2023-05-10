@@ -3,7 +3,7 @@ LIB_NAME = libsinterp
 TEST_NAME = sinterp_test
 
 CFLAGS = -Wall
-CPPFLAGS = -I src -I thirdparty -MP -MMD -g
+CPPFLAGS = -I src -I thirdparty -I input -MP -MMD -g
 LDFLAGS = 
 LDLIBS = -lm
 
