@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "operators.h": "c",
+        "executor.h": "c",
+        "strlib.h": "c",
+        "stdio.h": "c",
+        "variables.h": "c"
+    }
+}

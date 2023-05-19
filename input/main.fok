@@ -1,4 +1,8 @@
-asdasd
-asdasdda
-DEPSasd
-asdasdda
+done = 1.5
+print done
+
+one = 5
+two = one + 10
+one = one + two
+print one
+print two

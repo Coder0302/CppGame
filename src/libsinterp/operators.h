@@ -1,2 +1,2 @@
-int logicalOperation(char* text);
-int arithmeticOperation(char* text);
+int logicalOperation(char *text);
+char *arithmeticOperation(char *text);

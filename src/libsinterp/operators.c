@@ -1,72 +1,23 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-
-void trimSpaces(char** text)
-{
-    int textLength = 0;
-    while((*text)[textLength++]){}
-
-    char clearText[textLength];
-
-    int i = 0;
-    int index = 0;
-    while ((*text)[i])
-    {
-        if (!isspace((*text)[i]))
-        {
-            clearText[index++] = (*text)[i];
-        }
-        i++;
-    }
-    *text = clearText;
-}
-
-void getArguments(char *text, char (*v1)[], char (*op)[], char (*v2)[])
-{
-    int textLength = 0;
-    while(text[textLength++]){}
-    
-    char var1[textLength];
-    char operator[textLength];
-    char var2[textLength];
-
-    int i = 0;
-    
-    for (int index = 0; isdigit(text[i]) || text[i] == '.'; index++)
-    {
-        var1[index] = text[i++];
-        var1[index+1] = '\0';
-    }
-    for (int index = 0; text[i] == '<' || text[i] == '>' || text[i] == '='; index++)
-    {
-        operator[index] = text[i++];
-        operator[index+1] = '\0';
-    }
-    for (int index = 0; isdigit(text[i]) || text[i] == '.'; index++)
-    {
-        var2[index] = text[i++];
-        var2[index+1] = '\0';
-    }
-    strcpy(*v1, var1);
-    strcpy(*op, operator);
-    strcpy(*v2, var2);
-}
-
-int logicalOperation(char* text)
+#include <libsinterp/strlib.h>
+#include <libsinterp/variables.h>
+int logicalOperation(char *text)
 {
     trimSpaces(&text);
     int textLength = 0;
-    while(text[textLength++]){}
-    
+    while (text[textLength++])
+        ;
+
     char var1[textLength];
     char operator[textLength];
     char var2[textLength];
 
-    getArguments(text, &var1, &operator, &var2);
+    getArguments(text, 3, (char **){">", "<", "=="}, &var1, &operator, & var2);
 
-    char* endptr1;
-    char* endptr2;
+    char *endptr1;
+    char *endptr2;
 
     if (strcmp(operator, ">") == 0)
     {
@@ -119,7 +70,89 @@ int logicalOperation(char* text)
     return -1;
 }
 
-int arithmeticOperation(char* text)
+char *arithmeticOperation(char *text) // (1 + 3) | (2 - 4.5)
 {
-    return -1;
+    trimSpaces(&text);
+    int textLength = 0;
+    while (text[textLength++])
+        ;
+    if (isInteger(text))
+    {
+        return text;
+    }
+    else if (isDouble(text))
+    {
+        return text;
+    }
+
+    char var1[textLength];
+    char operator[textLength];
+    char var2[textLength];
+
+    getArguments(text, 2, (char **){"+", "-"}, &var1, &operator, & var2);
+
+    char *endptrInt1;
+    char *endptrInt2;
+    int varInt1 = 0;
+    int varInt2 = 0;
+
+    char *endptrDouble1;
+    char *endptrDouble2;
+    double varDouble1 = 0;
+    double varDouble2 = 0;
+    // Присваивание инт переменных, если они int
+    strtol(var1, &endptrInt1, 10); // проверка на int
+    if (*endptrInt1 == '\0')
+    {
+        varInt1 = atoi(var1);
+    }
+    strtol(var2, &endptrInt2, 10); // проверка на int
+    if (*endptrInt2 == '\0')
+    {
+        varInt2 = atoi(var2);
+    }
+    // Присваивание double переменных, если они double
+    strtod(var1, &endptrDouble1); // проверка на double
+    if (*endptrDouble1 == '\0')
+    {
+        varDouble1 = atof(var1);
+    }
+    strtod(var2, &endptrDouble2); // проверка на double
+    if (*endptrDouble2 == '\0')
+    {
+        varDouble2 = atof(var2);
+    }
+
+    if (*endptrInt1 == '\0' && *endptrInt2 == '\0')
+    {
+        if (strcmp(operator, "+") == 0)
+        {
+            char *var = malloc(sizeof(char) * 10);
+            sprintf(var, "%d", varInt1 + varInt2);
+            return var;
+        }
+        else if (strcmp(operator, "-") == 0)
+        {
+            char *var = malloc(sizeof(char) * 10);
+            sprintf(var, "%d", varInt1 - varInt2);
+            return var;
+        }
+    }
+    else if (*endptrDouble1 == '\0' || *endptrDouble2 == '\0')
+    {
+        if (strcmp(operator, "+") == 0)
+        {
+            char *var = malloc(sizeof(char) * 10);
+            double res = varDouble1 + varInt1 + varDouble2 + varInt2;
+            sprintf(var, "%f", res);
+            return var;
+        }
+        else if (strcmp(operator, "-") == 0)
+        {
+            char *var = malloc(sizeof(char) * 10);
+            double res = varDouble1 - varInt1 - varDouble2 - varInt2;
+            sprintf(var, "%f", res);
+            return var;
+        }
+    }
 }
