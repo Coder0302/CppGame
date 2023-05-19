@@ -115,7 +115,7 @@ char *arithmeticOperation(char *text) // (1 + 3) | (2 - 4.5)
     strtod(var1, &endptrDouble1); // проверка на double
     if (*endptrDouble1 == '\0')
     {
-        varDouble1 = atof(var1);
+        varDouble1 = atof(var1); // 3.14 | 3
     }
     strtod(var2, &endptrDouble2); // проверка на double
     if (*endptrDouble2 == '\0')
@@ -143,14 +143,14 @@ char *arithmeticOperation(char *text) // (1 + 3) | (2 - 4.5)
         if (strcmp(operator, "+") == 0)
         {
             char *var = malloc(sizeof(char) * 10);
-            double res = varDouble1 + varInt1 + varDouble2 + varInt2;
+            double res = varDouble1 + varDouble2;
             sprintf(var, "%f", res);
             return var;
         }
         else if (strcmp(operator, "-") == 0)
         {
             char *var = malloc(sizeof(char) * 10);
-            double res = varDouble1 - varInt1 - varDouble2 - varInt2;
+            double res = varDouble1 - varDouble2;
             sprintf(var, "%f", res);
             return var;
         }

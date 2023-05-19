@@ -1,7 +1,7 @@
 done = 1.5
 print done
-
-one = 5
+one = 5 + done
+print one
 two = one + 10
 one = one + two
 print one

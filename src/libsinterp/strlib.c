@@ -46,11 +46,22 @@ char *charToVar(char *line)
         }
         if (strcmp(varName, "") != 0)
         {
-            char var[17];
-            sprintf(var, "%d", getInt(varName));
-            strcat(result, var);
-            indexResult += strlen(var);
-            indexLine--;
+            if (getInt(varName) != -1)
+            {
+                char var[17];
+                sprintf(var, "%d", getInt(varName));
+                strcat(result, var);
+                indexResult += strlen(var);
+                indexLine--;
+            }
+            else if (getDouble(varName) != -1)
+            {
+                char var[17];
+                sprintf(var, "%f", getDouble(varName));
+                strcat(result, var);
+                indexResult += strlen(var);
+                indexLine--;
+            }
         }
         else
         {

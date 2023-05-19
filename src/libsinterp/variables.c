@@ -72,7 +72,7 @@ void setInt(char *name, int newValue)
 
 void makeDouble(char *name, double baseValue)
 {
-    intValues = realloc(doubleValues, ++doubleValuesCount * sizeof(struct DoubleType));
+    doubleValues = realloc(doubleValues, ++doubleValuesCount * sizeof(struct DoubleType));
     struct DoubleType newDouble;
     newDouble.baseType.name = name;
     newDouble.value = baseValue;

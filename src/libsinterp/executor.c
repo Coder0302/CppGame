@@ -29,11 +29,13 @@ void cmdWithEqual(char *line)
     char *argumentsResult = arithmeticOperation(operation);
     if (isInteger(argumentsResult))
     {
-        setInt(varName, atoi(argumentsResult));
+        int res = atoi(argumentsResult);
+        setInt(varName, res);
     }
     else if (isDouble(argumentsResult))
     {
-        setDouble(varName, atof(argumentsResult));
+        double res = atof(argumentsResult);
+        setDouble(varName, res);
     }
     // executeLine(strstr(line, "=") + 1);
 }
