@@ -1,12 +1,17 @@
-one = 5
+read one
 print one
-if one == one then
-i = 0
+if one < 11 then
+i = one
 while i < 10 do
-if i > 5 then
+if i > 0 then
+j = 0
+while j < 3 do 
 print i
+j = j + 1
+done
 fi
 i = i + 1
 done
 fi
 print 1234567
+print Programm_Work!

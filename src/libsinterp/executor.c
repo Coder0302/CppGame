@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <libsinterp/constructions.h>
 #include <libsinterp/variables.h>
 #include <libsinterp/operators.h>
 #include <libsinterp/strlib.h>
@@ -16,12 +15,12 @@
 
 void cmdWithEqual(char *line)
 {
-    int textLength = 0;
+    size_t textLength = 0;
     while (line[textLength++])
         ;
-    int index = 0;
+    size_t index = 0;
     char *varName = malloc(textLength * sizeof(char));
-    for (int i = 0; line[index] != '='; i++)
+    for (size_t i = 0; line[index] != '='; i++)
     {
         varName[i] = line[index++];
     }
@@ -48,27 +47,48 @@ void executeLine(char *line)
     {
         cmdWithEqual(line);
     }
-    if (strstr(line, ">") != NULL || strstr(line, "<") != NULL || strstr(line, "==") != NULL)
+    else if (strstr(line, "read") != NULL)
     {
+        char str[10];
+        scanf("%s", str);
+
+        char *varName = strstr(line, "read") + 4;
+        trimSpaces(&varName);
+        if (isInteger(str))
+        {
+            setInt(varName, atoi(str));
+        }
+        else if (isDouble(str))
+        {
+            setDouble(varName, atof(str));
+        }
     }
-    if (strstr(line, "print") != NULL)
+    else if (strstr(line, "print") != NULL)
     {
-        printf("%s\n", charToVar((char *)(line + 5)));
+        char *output = charToVar((char *)(line + 5));
+        if (strlen(output) > 0)
+        {
+            printf("%s\n", output);
+        }
+        else
+        {
+            printf("%s\n", line + 5);
+        }
     }
 }
 
 void execute(char *text)
 {
-    int textLength = 0;
+    size_t textLength = 0;
     while (text[textLength++])
         ;
 
     char *line = malloc(sizeof(char) * 512);
-    int index = 0;
-    int lenText = strlen(text);
+    size_t index = 0;
+    size_t lenText = strlen(text);
     while (index < lenText)
     {
-        for (int i = 0; text[index] != '\n' && text[index] != 0; i++)
+        for (size_t i = 0; text[index] != '\n' && text[index] != 0; i++)
         {
             line[i] = text[index];
             line[i + 1] = 0;
@@ -105,7 +125,12 @@ void execute(char *text)
             char *newText = malloc(sizeof(char) * 512);
             strcpy(newText, text);
             newText = strstr(newText, "do") + 3;
-            *(strstr(newText, "done") - 1) = '\0';
+            char *lastPtrToStr = newText;
+            while (strstr(lastPtrToStr, "done") != NULL)
+            {
+                lastPtrToStr = strstr(lastPtrToStr, "done") + 1;
+            }
+            *(lastPtrToStr - 2) = 0;
             while (result == 1)
             {
                 operation = charToVar(&(line[6]));
@@ -119,7 +144,7 @@ void execute(char *text)
         }
         executeLine(line);
     }
-    free(line);
+    free(line); // Очищаем line
 }
 
 char *readFromFile(char *filePath)

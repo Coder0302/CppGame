@@ -6,9 +6,7 @@
 int logicalOperation(char *text)
 {
     trimSpaces(&text);
-    int textLength = 0;
-    while (text[textLength++])
-        ;
+    size_t textLength = strlen(text);
 
     char var1[textLength];
     char operator[textLength];
@@ -75,18 +73,12 @@ int logicalOperation(char *text)
 char *arithmeticOperation(char *text) // (1 + 3) | (2 - 4.5)
 {
     trimSpaces(&text);
-    int textLength = 0;
-    while (text[textLength++])
-        ;
-    if (isInteger(text))
-    {
-        return text;
-    }
-    else if (isDouble(text))
+    if (isInteger(text) || isDouble(text))
     {
         return text;
     }
 
+    size_t textLength = strlen(text);
     char var1[textLength];
     char operator[textLength];
     char var2[textLength];
@@ -104,22 +96,23 @@ char *arithmeticOperation(char *text) // (1 + 3) | (2 - 4.5)
     double varDouble2 = 0;
     // Присваивание инт переменных, если они int
     strtol(var1, &endptrInt1, 10); // проверка на int
+    strtol(var2, &endptrInt2, 10); // проверка на int
+
+    // Присваивание double переменных, если они double
+    strtod(var1, &endptrDouble1); // проверка на double
+    strtod(var2, &endptrDouble2); // проверка на double
     if (*endptrInt1 == '\0')
     {
         varInt1 = atoi(var1);
     }
-    strtol(var2, &endptrInt2, 10); // проверка на int
     if (*endptrInt2 == '\0')
     {
         varInt2 = atoi(var2);
     }
-    // Присваивание double переменных, если они double
-    strtod(var1, &endptrDouble1); // проверка на double
     if (*endptrDouble1 == '\0')
     {
         varDouble1 = atof(var1); // 3.14 | 3
     }
-    strtod(var2, &endptrDouble2); // проверка на double
     if (*endptrDouble2 == '\0')
     {
         varDouble2 = atof(var2);
@@ -157,4 +150,5 @@ char *arithmeticOperation(char *text) // (1 + 3) | (2 - 4.5)
             return var;
         }
     }
+    return NULL;
 }

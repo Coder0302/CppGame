@@ -3,22 +3,22 @@
 
 #include <libsinterp/variables.h>
 
-int intValuesCount;
+size_t intValuesCount;
 struct IntType *intValues;
 
-int doubleValuesCount;
+size_t doubleValuesCount;
 struct DoubleType *doubleValues;
 
 char getType(char *name)
 {
-    for (int i = 0; i < intValuesCount; i++)
+    for (size_t i = 0; i < intValuesCount; i++)
     {
         if (intValues[i].baseType.name == name)
         {
             return INT_POINTER;
         }
     }
-    for (int i = 0; i < doubleValuesCount; i++)
+    for (size_t i = 0; i < doubleValuesCount; i++)
     {
         if (doubleValues[i].baseType.name == name)
         {
@@ -46,7 +46,7 @@ void makeInt(char *name, int baseValue)
 }
 int getInt(char *name)
 {
-    for (int i = 0; i < intValuesCount; i++)
+    for (size_t i = 0; i < intValuesCount; i++)
     {
         if (strcmp(intValues[i].baseType.name, name) == 0)
         {
@@ -61,11 +61,12 @@ void setInt(char *name, int newValue)
     {
         makeInt(name, newValue);
     }
-    for (int i = 0; i < intValuesCount; i++)
+    for (size_t i = 0; i < intValuesCount; i++)
     {
         if (strcmp(intValues[i].baseType.name, name) == 0)
         {
             intValues[i].value = newValue;
+            break;
         }
     }
 }
@@ -80,7 +81,7 @@ void makeDouble(char *name, double baseValue)
 }
 double getDouble(char *name)
 {
-    for (int i = 0; i < doubleValuesCount; i++)
+    for (size_t i = 0; i < doubleValuesCount; i++)
     {
         if (strcmp(doubleValues[i].baseType.name, name) == 0)
         {
@@ -95,7 +96,7 @@ void setDouble(char *name, double newValue)
     {
         makeDouble(name, newValue);
     }
-    for (int i = 0; i < doubleValuesCount; i++)
+    for (size_t i = 0; i < doubleValuesCount; i++)
     {
         if (strcmp(doubleValues[i].baseType.name, name) == 0)
         {

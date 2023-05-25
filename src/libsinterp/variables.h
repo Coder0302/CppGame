@@ -1,4 +1,3 @@
-int exists(char *name);
 char getType(char *name);
 int haveVar(char *name);
 
