@@ -48,9 +48,6 @@ void executeLine(char *line)
     {
         cmdWithEqual(line);
     }
-    if (strstr(line, "+") != NULL || strstr(line, "-") != NULL)
-    {
-    }
     if (strstr(line, ">") != NULL || strstr(line, "<") != NULL || strstr(line, "==") != NULL)
     {
     }
@@ -66,9 +63,10 @@ void execute(char *text)
     while (text[textLength++])
         ;
 
-    char *line = malloc(sizeof(char) * 128);
+    char *line = malloc(sizeof(char) * 512);
     int index = 0;
-    while (index < strlen(text))
+    int lenText = strlen(text);
+    while (index < lenText)
     {
         for (int i = 0; text[index] != '\n' && text[index] != 0; i++)
         {
@@ -77,9 +75,50 @@ void execute(char *text)
             index++;
         }
         index++;
+        if (strstr(line, "if") != NULL)
+        {
+            *strstr(line, "then") = 0;
+            char *operation = charToVar(&(line[3]));
+            int result = logicalOperation(operation);
+
+            char *newText = malloc(sizeof(char) * 512);
+            strcpy(newText, text);
+            newText = strstr(newText, "then") + 5;
+            char *lastPtrToStr = newText;
+            while (strstr(lastPtrToStr, "fi") != NULL)
+            {
+                lastPtrToStr = strstr(lastPtrToStr, "fi") + 1;
+            }
+            *(lastPtrToStr - 2) = 0;
+            if (result == 1)
+            {
+                execute(newText);
+            }
+            index += strlen(newText) + 4;
+        }
+        if (strstr(line, "while") != NULL)
+        {
+            *strstr(line, "do") = 0;
+            char *operation = charToVar(&(line[6]));
+            int result = logicalOperation(operation);
+
+            char *newText = malloc(sizeof(char) * 512);
+            strcpy(newText, text);
+            newText = strstr(newText, "do") + 3;
+            *(strstr(newText, "done") - 1) = '\0';
+            while (result == 1)
+            {
+                operation = charToVar(&(line[6]));
+                result = logicalOperation(operation);
+                if (result == 1)
+                {
+                    execute(newText);
+                }
+            }
+            index += strlen(newText) + 6;
+        }
         executeLine(line);
     }
-    free(text);
     free(line);
 }
 
@@ -90,8 +129,8 @@ char *readFromFile(char *filePath)
     {
         printf("Ошибка при открытии файла скрипта.\n");
     }
-    char *text = malloc(sizeof(char) * 512);
-    fread(text, 512, 1, script);
+    char *text = malloc(sizeof(char) * 1024);
+    fread(text, 1024, 1, script);
     fclose(script);
     return text;
 }

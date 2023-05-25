@@ -34,7 +34,7 @@ char *charToVar(char *line)
     // 5 + asff
     int indexLine = 0;
     int indexResult = 0;
-    char *result = malloc(sizeof(char) * 128);
+    char *result = malloc(sizeof(char) * 512);
     while (indexLine < strlen(line))
     {
         char varName[32] = "";
@@ -85,7 +85,7 @@ int isDouble(char *text)
     return *endptr1 == '\0';
 }
 
-void getArguments(char *text, int countSeparators, char (*separators)[countSeparators], char (*v1)[], char (*op)[], char (*v2)[])
+void getArguments(char *text, int countSeparators, char separators[countSeparators][2], char (*v1)[], char (*op)[], char (*v2)[])
 {
     int textLength = 0;
     while (text[textLength++])
@@ -102,12 +102,13 @@ void getArguments(char *text, int countSeparators, char (*separators)[countSepar
         var1[index] = text[i++];
         var1[index + 1] = '\0';
     }
-    for (int j = 0; j < sizeof(separators); j++)
+    for (int j = 0; j < countSeparators; j++)
     {
-        if (strstr(text, separators[j]) != NULL)
+        char *sep = separators[j];
+        if (strstr(text, sep) != NULL && strlen(sep) > 0)
         {
-            strcpy(operator, separators[j]);
-            int len = strlen(separators[j]);
+            strcpy(operator, sep);
+            int len = strlen(sep);
             i += len;
             break;
         }

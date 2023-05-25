@@ -61,5 +61,5 @@ run:
 	./$(APP_PATH)
 
 .PHONY: run_test
-start_test:
+run_test:
 	./$(TEST_PATH)

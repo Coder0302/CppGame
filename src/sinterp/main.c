@@ -10,7 +10,5 @@ int main(int argc, char *argv[])
     char *fileText = readFromFile("input/main.fok");
     execute(fileText);
 
-    printf("%f\n", 1.5 + 5);
-
     return 0;
 }

@@ -1,8 +1,12 @@
-done = 1.5
-print done
-one = 5 + done
+one = 5
 print one
-two = one + 10
-one = one + two
-print one
-print two
+if one == one then
+i = 0
+while i < 10 do
+if i > 5 then
+print i
+fi
+i = i + 1
+done
+fi
+print 1234567

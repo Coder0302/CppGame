@@ -14,7 +14,9 @@ int logicalOperation(char *text)
     char operator[textLength];
     char var2[textLength];
 
-    getArguments(text, 3, (char **){">", "<", "=="}, &var1, &operator, & var2);
+    char args[3][2] = {">", "<", "=="};
+
+    getArguments(text, 3, args, &var1, &operator, & var2);
 
     char *endptr1;
     char *endptr2;
